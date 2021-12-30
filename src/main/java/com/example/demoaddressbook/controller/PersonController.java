@@ -1,16 +1,8 @@
 package com.example.demoaddressbook.controller;
 
-public class PersonController{
-	
-	
-	
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class PersonController {
+
 }
-
-
-
-
-
-
-
-
-
