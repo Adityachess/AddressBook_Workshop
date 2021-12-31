@@ -1,6 +1,9 @@
 package com.example.demoaddressbook.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -13,8 +16,10 @@ import lombok.Data;
 @Table(name="person_details")
 public class PersonData {
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name= "person_id")
 
-	private int personId;
+	private int pId;
 	private String fName;
 	private String lName;
 	private String gender;
@@ -30,7 +35,7 @@ public class PersonData {
 	}
 
 	public PersonData(PersonDTO personDTO) {
-	//	this.updatePersonData(personDTO);
+		this.updatePersonData(personDTO);
 	}
 
 	public void updatePersonData(PersonDTO personDTO) {

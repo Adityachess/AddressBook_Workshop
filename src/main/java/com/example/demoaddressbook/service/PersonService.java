@@ -40,7 +40,8 @@ public class PersonService implements IPersonService {
 	 */
 	@Override
 	public PersonData createPersonData(PersonDTO personDTO) {
-		PersonData personData = new PersonData(personDTO);
+		PersonData personData = null;
+		personData=new PersonData(personDTO);
 		return personRepository.save(personData);
 	}
 
