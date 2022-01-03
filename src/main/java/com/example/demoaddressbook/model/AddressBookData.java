@@ -25,7 +25,7 @@ import lombok.ToString;
 public class AddressBookData {
 
 	@Id
-	// @GeneratedValue
+	 @GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@Column(name = "book_id")
 	private int bookId;
 
