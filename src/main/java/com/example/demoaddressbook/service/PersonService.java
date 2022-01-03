@@ -1,12 +1,15 @@
 package com.example.demoaddressbook.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demoaddressbook.dto.PersonDTO;
+import com.example.demoaddressbook.model.AddressBookData;
 import com.example.demoaddressbook.model.PersonData;
+import com.example.demoaddressbook.repository.IAddressBookRepository;
 import com.example.demoaddressbook.repository.IPersonRepository;
 
 @Service
@@ -14,6 +17,9 @@ public class PersonService implements IPersonService {
 	
 	@Autowired
 	private IPersonRepository personRepository;
+
+	@Autowired
+	private IAddressBookRepository addressbookrepository;
 
 	/**
 	 * Using the get method to get all person details
@@ -29,7 +35,7 @@ public class PersonService implements IPersonService {
 	 * @return  Contact details of the person
 	 */
 	@Override
-	public PersonData getPersonDataById(int pId) {
+	public PersonData getPersonDataById(int addressBookId, int pId) {
 		return personRepository.findById(pId).get();
 	}
 
@@ -39,22 +45,29 @@ public class PersonService implements IPersonService {
 	 * @return  person details
 	 */
 	@Override
-	public PersonData createPersonData(PersonDTO personDTO) {
-		PersonData personData = null;
-		personData=new PersonData(personDTO);
-		return personRepository.save(personData);
+	public PersonData createPersonData(int addressBookId, PersonDTO personDTO) {
+		PersonData contactData = null;
+		contactData = new PersonData(personDTO);
+		Optional<AddressBookData> addressbook = addressbookrepository.findById(addressBookId);
+		if (addressbook.isPresent()) {
+			contactData.setAddressBook(addressbook.get());
+		}
+		return personRepository.save(contactData);
 	}
-
 	/**
 	 * Using put method to update the person details
 	 * @param personDTO 
 	 * @return  details of the person
 	 */
 	@Override
-	public PersonData updatePersonData(int pId, PersonDTO personDTO) {
-        PersonData personData  = this.getPersonDataById(pId);
-        personData .updatePersonData(personDTO);
-        return personRepository.save(personData);
+	public PersonData updatePersonData(int addressBookId, int pId, PersonDTO personDTO) {
+		PersonData personData = this.getPersonDataById(addressBookId, pId);
+		personData.updatePersonData(personDTO);
+		Optional<AddressBookData> addressbook = addressbookrepository.findById(addressBookId);
+		if (addressbook.isPresent()) {
+			personData.setAddressBook(addressbook.get());
+		}
+		return personRepository.save(personData);
 	}
 
 	/**
@@ -63,9 +76,9 @@ public class PersonService implements IPersonService {
 	 * @return  deleted person id with string message
 	 */
 	@Override
-	public void deletePersonData(int id) {
-		PersonData personData  = this.getPersonDataById(id);
-		personRepository.delete(personData );
+	public void deletePersonData(int addressBookId, int pId) {
+		PersonData personData = this.getPersonDataById(addressBookId, pId);
+		personRepository.delete(personData);
 	}
 	
 }

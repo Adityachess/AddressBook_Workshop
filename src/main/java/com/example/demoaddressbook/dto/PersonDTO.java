@@ -5,7 +5,7 @@ import lombok.Data;
 /**
  * 
  * @author 91855
- * using lombok to auto generate getters and setters also the constructoe
+ * using lombok to auto generate getters and setters also the constructor
  *
  */
 @Data
