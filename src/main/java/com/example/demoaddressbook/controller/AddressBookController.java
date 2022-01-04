@@ -2,6 +2,8 @@ package com.example.demoaddressbook.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +29,10 @@ public class AddressBookController {
 	@Autowired
 	private IAddressBookService addressBookService;
 	
+	/**
+	 * @param url
+	 * @return PersonData for all person
+	 */
 	@RequestMapping("/getAll")
 	public ResponseEntity<ResponseDTO> getAllAddressBookData() {
 		List<AddressBookData> addressBookList = null;
@@ -34,6 +40,12 @@ public class AddressBookController {
 		ResponseDTO respDTO = new ResponseDTO("Get call success", addressBookList);
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
+	
+	/**
+	 * 
+	 * @param addressBookId
+	 * @return personData for particular id
+	 */
 	
 	@GetMapping("/get")
 	public ResponseEntity<ResponseDTO> getAddressBookData(@RequestParam int addressBookId) {
@@ -45,12 +57,12 @@ public class AddressBookController {
 	
 	/**
 	 * 
-	 * @param bookDTO
-	 * @return
+	 * @param AddressBookDTO
+	 * @return personData And HTTP status
 	 */
 	
 	@PostMapping("/create")
-	public ResponseEntity<ResponseDTO> createAddressBookData(@RequestBody AddressBookDTO addressBookDTO) {
+	public ResponseEntity<ResponseDTO> createAddressBookData(@Valid @RequestBody AddressBookDTO addressBookDTO) {
 		AddressBookData createBook = null;
 		createBook = addressBookService.createAddressBookData(addressBookDTO);
 		ResponseDTO respDTO = new ResponseDTO("created address book successfully", createBook);
@@ -59,16 +71,22 @@ public class AddressBookController {
 	/**
 	 * 
 	 * @param addressbookId ,addressBookDto
-	 * @return
+	 * @return Updated PersonData And HTTP status
 	 */
 	
 	@PutMapping("update")
-	public ResponseEntity<ResponseDTO> updateAddressBookData(@RequestParam int addressBookId,@RequestBody AddressBookDTO addressBookDTO) {
+	public ResponseEntity<ResponseDTO> updateAddressBookData(@Valid @RequestParam int addressBookId,@RequestBody AddressBookDTO addressBookDTO) {
 		AddressBookData createBook = null;
 		createBook = addressBookService.updateAddressBookData(addressBookId,addressBookDTO);
 		ResponseDTO respDTO = new ResponseDTO("created address book successfully", createBook);
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
+	/**
+	 * 
+	 * @param addressBookId
+	 * @return String if id is removed
+	 */
+	
 	@DeleteMapping("/remove")
 	public ResponseEntity<ResponseDTO> deleteAddressBookData(@RequestParam int addressBookId) {
 		addressBookService.deleteAddressBookData(addressBookId);

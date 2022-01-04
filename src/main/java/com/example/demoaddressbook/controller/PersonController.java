@@ -2,6 +2,7 @@ package com.example.demoaddressbook.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,10 @@ public class PersonController {
 	@Autowired
 	private IPersonService personService;
 
+	/**
+	 * @param url
+	 * @return
+	 */
 	@RequestMapping("/getAll")
 	public ResponseEntity<ResponseDTO> getAllAddressBookData() {
 		List<PersonData> addressBookList = null;
@@ -43,7 +48,7 @@ public class PersonController {
 	 * @return : person details for that particular id
 	 */
 	@GetMapping("/get")
-	public ResponseEntity<ResponseDTO> getAddressBookData(@RequestParam int addressBookId, @RequestParam int pId) {
+	public ResponseEntity<ResponseDTO> getAddressBookData(@Valid @RequestParam int addressBookId, @RequestParam int pId) {
 		PersonData personDetails = null;
 		personDetails = personService.getPersonDataById(addressBookId, pId);
 		ResponseDTO respDTO = new ResponseDTO("Get call success for id:" + pId, personDetails);
@@ -57,7 +62,7 @@ public class PersonController {
 	 */
 
 	@PostMapping("/create")
-	public ResponseEntity<ResponseDTO> createAddressBookData(@RequestParam int addressBookId,
+	public ResponseEntity<ResponseDTO> createAddressBookData( @RequestParam int addressBookId, @Valid
 			@RequestBody PersonDTO personDTO) {
 		PersonData personDetails = null;
 		personDetails = personService.createPersonData(addressBookId, personDTO);
@@ -72,7 +77,7 @@ public class PersonController {
 	 * @return : updated data of that person
 	 */
 	@PutMapping("/update")
-	public ResponseEntity<ResponseDTO> updateAddressBookData(@RequestParam int addressBookId,
+	public ResponseEntity<ResponseDTO> updateAddressBookData( @RequestParam int addressBookId, @Valid
 			@RequestParam int pId, @RequestBody PersonDTO personDTO) {
 		PersonData personDetails = null;
 		personDetails = personService.updatePersonData(addressBookId, pId, personDTO);

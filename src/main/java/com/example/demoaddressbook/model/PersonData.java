@@ -8,12 +8,19 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 
 import com.example.demoaddressbook.dto.PersonDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-
+/**
+ * 
+ * @author 91855
+ * using lombok to auto generate getters and setters and constructor
+ *
+ */
 @Data
 @Entity
 @AllArgsConstructor
@@ -24,8 +31,10 @@ public class PersonData {
 	@Column(name= "person_id")
 
 	private int pId;
+	
 	private String fName;
 	
+
 	private String lName;
 	private String gender;
 	private String phoneNum;
